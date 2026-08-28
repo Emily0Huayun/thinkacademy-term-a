@@ -46,6 +46,37 @@ td{padding:8px 11px;border-bottom:1px solid #f0f3f6;vertical-align:top}
 .tm{white-space:nowrap;font-variant-numeric:tabular-nums}
 .pick{color:var(--accent);font-weight:650}
 .sku{color:var(--muted);font-size:12px;user-select:all}
+.pk{display:inline-block;padding:2px;cursor:pointer}
+.pk input{position:absolute;opacity:0;width:0;height:0}
+.pk span{display:block;width:20px;height:20px;border:2px solid var(--line);border-radius:6px;background:#fff}
+.pk input:checked+span{background:var(--accent);border-color:var(--accent)}
+.pk input:checked+span::after{content:"";display:block;width:5px;height:10px;margin:1px auto 0;
+border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+tr.sel td{background:#eef3fb!important}
+.genbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.97);
+border-top:1px solid var(--line);padding:11px 18px;display:none;align-items:center;gap:11px;backdrop-filter:blur(8px)}
+.genbar.on{display:flex}
+.genbar .n{font-size:13px;color:var(--muted);flex:1}
+.genbar .n b{color:var(--ink);font-weight:700}
+.btn{border:0;background:var(--accent);color:#fff;border-radius:9px;padding:10px 16px;
+font:inherit;font-size:14px;font-weight:650;cursor:pointer;white-space:nowrap}
+.btn.gh{background:#eef1f5;color:var(--ink)}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(15,20,28,.45);display:none;
+align-items:center;justify-content:center;padding:16px}
+.sheet.on{display:flex}
+.sbox{background:#fff;width:100%;max-width:640px;max-height:90vh;overflow:auto;border-radius:14px;padding:18px}
+.sbox h2{margin:0 0 3px;font-size:16px;font-weight:700}
+.hint2{color:var(--muted);font-size:11.5px;margin-bottom:12px;line-height:1.5}
+.fld{margin-bottom:11px}
+.fld label{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.fld textarea{width:100%;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+line-height:1.6;min-height:200px;padding:10px;border:1px solid var(--line);border-radius:9px;resize:vertical}
+.opts{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:11px}
+.opts label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.opts input{width:17px;height:17px;min-height:0;margin:0}
+.srow{display:flex;gap:9px;margin-top:4px}
+.srow .btn{flex:1}
+body{padding-bottom:62px}
 .note{color:var(--muted);font-size:11.5px;max-width:300px}
 a{color:#0b5fbf;text-decoration:none}
 footer{color:var(--muted);font-size:11.5px;margin-top:12px;line-height:1.75}
@@ -117,8 +148,29 @@ footer{color:var(--muted);font-size:11.5px;margin-top:12px;line-height:1.75}
 <div class="hint" id="hint"></div>
 </div>
 
+
+<div class="genbar" id="gbar">
+<span class="n">已選 <b id="gn">0</b> 個班</span>
+<button class="btn gh" id="gclr">清除選取</button>
+<button class="btn" id="gmake">產生訊息</button>
+</div>
+<div class="sheet" id="gsheet"><div class="sbox">
+<h2>產生給家長的訊息</h2>
+<div class="hint2">時間會依每班實際開課日期換算美國夏令／冬令時間。文字可直接編輯後再複製。</div>
+<div class="fld"><label>對照時區</label><select id="gtz">
+<option value="3">美東（東岸）</option><option value="bj">北京</option>
+<option value="0">不換算，只列美西</option></select></div>
+<div class="opts">
+<label><input type="checkbox" id="gt"> 附老師</label>
+<label><input type="checkbox" id="gs"> 附剩餘名額</label>
+<label><input type="checkbox" id="gu"> 附報名連結</label></div>
+<div class="fld"><label>開頭稱呼</label><input type="text" id="ghead"></div>
+<div class="fld"><label>訊息內容</label><textarea id="gout"></textarea></div>
+<div class="srow"><button class="btn gh" id="gclose">關閉</button>
+<button class="btn" id="gcopy">複製全文</button></div>
+</div></div>
 <div class="tblwrap"><table><thead><tr>
-<th>科目 / 年級</th><th>班型</th><th>老師</th><th>skuID</th>
+<th></th><th>科目 / 年級</th><th>班型</th><th>老師</th><th>skuID</th>
 <th>美西 PT</th><th>美東 ET</th><th>北京</th>
 <th>狀態</th><th>名額</th><th>開課～結課</th><th>備註</th><th></th>
 </tr></thead><tbody id="tb"></tbody></table></div>
@@ -208,8 +260,10 @@ function render(){
  var col=base===0?'pt':(base===3?'et':'bj');
  var h=[],prev='';
  for(var i=0;i<out.length;i++){var r=out[i],g=r.s+' — '+r.l;
-  if(g!==prev){h.push('<tr class="grp"><td colspan="12">'+esc(g)+'</td></tr>');prev=g;}
-  h.push('<tr>'
+  if(g!==prev){h.push('<tr class="grp"><td colspan="13">'+esc(g)+'</td></tr>');prev=g;}
+  h.push('<tr'+(SEL[r.sku]?' class="sel"':'')+'>'
+  +'<td data-l=""><label class="pk"><input type="checkbox" class="pkx" data-sku="'+r.sku+'"'
+  +(SEL[r.sku]?' checked':'')+'><span></span></label></td>'
   +'<td class="hd" data-l="課程">'+esc(r.s)+'</td>'
   +'<td data-l="班型">'+esc(r.l)+'</td>'
   +'<td data-l="老師">'+esc(r.t)+'</td>'
@@ -222,7 +276,7 @@ function render(){
   +'<td class="tm" data-l="期間">'+r.sd+' ～ '+r.ed+'</td>'
   +'<td class="note" data-l="備註">'+esc(r.n)+'</td>'
   +'<td data-l="連結"><a href="'+r.u+'" target="_blank" rel="noopener">班級頁</a></td></tr>');}
- tb.innerHTML=h.join('')||'<tr><td colspan="12" style="padding:26px;text-align:center;color:#6b7784">沒有符合的班級</td></tr>';
+ tb.innerHTML=h.join('')||'<tr><td colspan="13" style="padding:26px;text-align:center;color:#6b7784">沒有符合的班級</td></tr>';
  cnt.textContent='顯示 '+out.length+' / '+ROWS.length+' 個班級';
  var zn=base===0?'美西 PT':(base===3?'美東 ET':'北京');
  var bits=[];
@@ -242,5 +296,65 @@ t1.value=t2.value=d1.value=d2.value='';tzs.value='0';openOnly=false;
 $('only').className='chip';render();};
 [].forEach.call(document.querySelectorAll('.chip.gh'),function(b){
  b.onclick=function(){tzs.value=b.dataset.tz;t1.value=b.dataset.t;t2.value=b.dataset.t2;render();};});
+
+var SEL={},NL=String.fromCharCode(10);
+var BY={}; ROWS.forEach(function(r){BY[r.sku]=r;});
+function selRows(){var o=[];for(var k in SEL) if(SEL[k]) o.push(BY[k]); return o;}
+function syncBar(){var n=selRows().length;
+document.getElementById('gn').textContent=n;
+document.getElementById('gbar').className='genbar'+(n?' on':'');}
+document.getElementById('tb').addEventListener('change',function(e){
+ var x=e.target; if(!x.classList||!x.classList.contains('pkx'))return;
+ SEL[x.dataset.sku]=x.checked;
+ var tr=x.closest('tr'); if(tr) tr.className=x.checked?'sel':'';
+ syncBar();});
+function ampm2(t){return (Math.floor(t/60)%24)<12?'AM':'PM';}
+function hm2(t){t=((t%1440)+1440)%1440;var h=Math.floor(t/60),m=t%60,x=h%12||12;
+return x+':'+(m<10?'0':'')+m;}
+function rng(s,e){return ampm2(s)===ampm2(e)?hm2(s)+'-'+hm2(e)+' '+ampm2(e)
+ :hm2(s)+' '+ampm2(s)+'-'+hm2(e)+' '+ampm2(e);}
+function dstr(mask,sh){var o=[];for(var i=0;i<7;i++){var d=ORD[i];
+ if(mask&(1<<d))o.push(DAY[(d+sh+7)%7]);}return o.join('/');}
+function slot2(r,off){var s=r.ms+off*60,e=r.me+off*60;
+ return dstr(r.mask,Math.floor(s/1440))+' '+rng(s,e);}
+function bjOf(r){return isPDT(r.sn)?15:16;}
+function buildMsg(){
+ var list=selRows(); if(!list.length) return '';
+ var v=document.getElementById('gtz').value, lbl=v==='bj'?'北京':(v==='3'?'東岸':'');
+ list.sort(function(a,b){var da=99,db=99,i;
+  for(i=0;i<7;i++){if(a.mask&(1<<ORD[i])){da=i;break;}}
+  for(i=0;i<7;i++){if(b.mask&(1<<ORD[i])){db=i;break;}}
+  return da-db||a.ms-b.ms;});
+ var lines=list.map(function(r){
+  var t=slot2(r,0)+' PT';
+  if(v!=='0') t+=' → '+slot2(r,v==='bj'?bjOf(r):+v)+'（'+lbl+'）';
+  var ex=[];
+  if(document.getElementById('gt').checked) ex.push(r.t+' 老師');
+  if(document.getElementById('gs').checked) ex.push('剩 '+r.lf+' 位');
+  if(ex.length) t+='　'+ex.join('、');
+  if(document.getElementById('gu').checked) t+=NL+r.u;
+  return t;});
+ return document.getElementById('ghead').value.trim()+NL+NL+lines.join(NL);
+}
+function headDefault(){var m={};selRows().forEach(function(r){m[r.s+' '+r.l]=1;});
+ var k=Object.keys(m); return 'Hi 家長，這是本週 '+(k.length===1?k[0]:'以下課程')+' 還可以插班試聽的時段，以下有合適的嗎？';}
+function refreshMsg(){document.getElementById('gout').value=buildMsg();}
+document.getElementById('gmake').onclick=function(){
+ document.getElementById('ghead').value=headDefault(); refreshMsg();
+ document.getElementById('gsheet').className='sheet on';};
+document.getElementById('gclose').onclick=function(){document.getElementById('gsheet').className='sheet';};
+document.getElementById('gsheet').addEventListener('click',function(e){
+ if(e.target===this) this.className='sheet';});
+['gtz','gt','gs','gu'].forEach(function(i){document.getElementById(i).onchange=refreshMsg;});
+document.getElementById('ghead').oninput=refreshMsg;
+document.getElementById('gclr').onclick=function(){SEL={};render();syncBar();};
+document.getElementById('gcopy').onclick=function(){
+ var ta=document.getElementById('gout'),btn=this;
+ var done=function(){btn.textContent='已複製 ✓';setTimeout(function(){btn.textContent='複製全文';},1600);};
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+  navigator.clipboard.writeText(ta.value).then(done,function(){ta.select();document.execCommand('copy');done();});
+ } else {ta.select();document.execCommand('copy');done();}};
+syncBar();
 render();
+
 </script></body></html>
