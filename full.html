@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Think Academy 暑秋 Term A 課程總表</title>
+<title>Think Academy Term A Class Schedule</title>
 <style>
 :root{--ink:#12181f;--muted:#6b7784;--line:#e3e8ee;--bg:#f5f7fa;--card:#fff;
 --full:#c0392b;--fullbg:#fdecea;--low:#a86400;--lowbg:#fff6e0;--open:#1e7a45;--openbg:#e8f6ed;--accent:#1f3864}
@@ -53,8 +53,9 @@ td{padding:8px 11px;border-bottom:1px solid #f0f3f6;vertical-align:top}
 .pk input:checked+span::after{content:"";display:block;width:5px;height:10px;margin:1px auto 0;
 border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
 tr.sel td{background:#eef3fb!important}
-.genbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.97);
-border-top:1px solid var(--line);padding:11px 18px;display:none;align-items:center;gap:11px;backdrop-filter:blur(8px)}
+.genbar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.97);
+border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 10px rgba(15,20,28,.07);
+padding:11px 14px;margin-bottom:10px;display:none;align-items:center;gap:11px;backdrop-filter:blur(8px)}
 .genbar.on{display:flex}
 .genbar .n{font-size:13px;color:var(--muted);flex:1}
 .genbar .n b{color:var(--ink);font-weight:700}
@@ -76,7 +77,6 @@ line-height:1.6;min-height:200px;padding:10px;border:1px solid var(--line);borde
 .opts input{width:17px;height:17px;min-height:0;margin:0}
 .srow{display:flex;gap:9px;margin-top:4px}
 .srow .btn{flex:1}
-body{padding-bottom:62px}
 .note{color:var(--muted);font-size:11.5px;max-width:300px}
 a{color:#0b5fbf;text-decoration:none}
 footer{color:var(--muted);font-size:11.5px;margin-top:12px;line-height:1.75}
@@ -101,47 +101,47 @@ footer{color:var(--muted);font-size:11.5px;margin-top:12px;line-height:1.75}
 }
 </style></head><body>
 <header>
-<h1>Think Academy 暑秋 Term A · 全課程班級總表</h1>
-<div class="sub">官網 Available Classes 抓取 · 2026-08-27 · 38 個課程</div>
+<h1>Think Academy Term A &middot; All Classes</h1>
+<div class="sub">Scraped from Available Classes &middot; 2026-08-27 &middot; 38 courses</div>
 <div class="stats">
-<div class="stat"><b>604</b><span>班級總數</span></div>
-<div class="stat"><b>312</b><span>可報名</span></div>
-<div class="stat"><b>292</b><span>已額滿</span></div>
-<div class="stat"><b>1698</b><span>剩餘總名額</span></div>
+<div class="stat"><b>604</b><span>classes</span></div>
+<div class="stat"><b>312</b><span>open</span></div>
+<div class="stat"><b>292</b><span>full</span></div>
+<div class="stat"><b>1698</b><span>seats left</span></div>
 </div></header>
 <div class="wrap">
 
 <div class="panel">
 <div class="grid">
-<div class="f"><label>科目 / 年級</label><select id="fs"><option value="">全部</option></select></div>
-<div class="f"><label>班型</label><select id="fl"><option value="">全部</option></select></div>
-<div class="f"><label>老師</label><select id="ft"><option value="">全部</option></select></div>
-<div class="f"><label>以哪個時區篩選</label><select id="tz">
-<option value="0">美西 PT（太平洋）</option><option value="3">美東 ET</option><option value="15">北京 CST</option>
+<div class="f"><label>Course / Grade</label><select id="fs"><option value="">All</option></select></div>
+<div class="f"><label>Level</label><select id="fl"><option value="">All</option></select></div>
+<div class="f"><label>Teacher</label><select id="ft"><option value="">All</option></select></div>
+<div class="f"><label>Filter by timezone</label><select id="tz">
+<option value="0">Pacific (PT)</option><option value="3">Eastern (ET)</option><option value="15">Beijing (CST)</option>
 </select></div>
-<div class="f"><label>星期（依上方時區）</label><select id="fd"><option value="">全部</option></select></div>
-<div class="f wide"><label>時段（依上方時區）</label>
+<div class="f"><label>Day of week</label><select id="fd"><option value="">All</option></select></div>
+<div class="f wide"><label>Time of day</label>
 <div class="two"><input type="time" id="t1" step="900"><span>～</span><input type="time" id="t2" step="900"></div></div>
-<div class="f wide"><label>日期範圍（依上方時區）</label>
+<div class="f wide"><label>Date range</label>
 <div class="two"><input type="date" id="d1" min="2026-06-01" max="2027-05-31">
 <span>～</span><input type="date" id="d2" min="2026-06-01" max="2027-05-31"></div></div>
-<div class="f wide"><label>關鍵字</label><input id="q" placeholder="老師 / 課程 / 時間 / skuID…"></div>
+<div class="f wide"><label>Search</label><input id="q" placeholder="teacher / course / time / skuID"></div>
 </div>
 
 <div class="chips">
-<button class="chip gh" data-tz="0" data-t="15:00" data-t2="21:00">美西 放學後 3–9pm</button>
-<button class="chip gh" data-tz="0" data-t="09:00" data-t2="13:00">美西 週末上午</button>
-<button class="chip gh" data-tz="0" data-t="05:00" data-t2="09:00">美西 清晨班</button>
-<button class="chip gh" data-tz="15" data-t="08:00" data-t2="12:00">北京 上午 8–12</button>
-<button class="chip gh" data-tz="15" data-t="18:00" data-t2="22:00">北京 晚上 6–10</button>
-<button class="chip gh" data-tz="3" data-t="17:00" data-t2="22:00">美東 晚上 5–10</button>
+<button class="chip gh" data-tz="0" data-t="15:00" data-t2="21:00">PT after-school 3-9pm</button>
+<button class="chip gh" data-tz="0" data-t="09:00" data-t2="13:00">PT weekend morning</button>
+<button class="chip gh" data-tz="0" data-t="05:00" data-t2="09:00">PT early morning</button>
+<button class="chip gh" data-tz="15" data-t="08:00" data-t2="12:00">Beijing morning 8-12</button>
+<button class="chip gh" data-tz="15" data-t="18:00" data-t2="22:00">Beijing evening 6-10</button>
+<button class="chip gh" data-tz="3" data-t="17:00" data-t2="22:00">ET evening 5-10</button>
 </div>
 
 <div class="rowend">
 <div class="chips" style="margin:0">
-<button class="chip" id="only">只看可報名</button>
-<button class="chip" id="fit">時段需完整容納</button>
-<button class="chip" id="reset">清除全部</button>
+<button class="chip" id="only">Open seats only</button>
+<button class="chip" id="fit">Must fit fully</button>
+<button class="chip" id="reset">Reset</button>
 </div>
 <span class="count" id="cnt"></span>
 </div>
@@ -150,36 +150,36 @@ footer{color:var(--muted);font-size:11.5px;margin-top:12px;line-height:1.75}
 
 
 <div class="genbar" id="gbar">
-<span class="n">已選 <b id="gn">0</b> 個班</span>
-<button class="btn gh" id="gclr">清除選取</button>
-<button class="btn" id="gmake">產生訊息</button>
+<span class="n"><b id="gn">0</b> selected</span>
+<button class="btn gh" id="gclr">Clear</button>
+<button class="btn" id="gmake">Generate message</button>
 </div>
 <div class="sheet" id="gsheet"><div class="sbox">
-<h2>產生給家長的訊息</h2>
-<div class="hint2">時間會依每班實際開課日期換算美國夏令／冬令時間。文字可直接編輯後再複製。</div>
-<div class="fld"><label>對照時區</label><select id="gtz">
-<option value="3">美東（東岸）</option><option value="bj">北京</option>
-<option value="0">不換算，只列美西</option></select></div>
+<h2>Message for parents</h2>
+<div class="hint2">Output is in Simplified Chinese. Times are converted per class using its actual start date. Edit before copying if you like.</div>
+<div class="fld"><label>Convert to</label><select id="gtz">
+<option value="3">Eastern (ET)</option><option value="bj">Beijing</option>
+<option value="0">Pacific only</option></select></div>
 <div class="opts">
-<label><input type="checkbox" id="gt"> 附老師</label>
-<label><input type="checkbox" id="gs"> 附剩餘名額</label>
-<label><input type="checkbox" id="gu"> 附報名連結</label></div>
-<div class="fld"><label>開頭稱呼</label><input type="text" id="ghead"></div>
-<div class="fld"><label>訊息內容</label><textarea id="gout"></textarea></div>
-<div class="srow"><button class="btn gh" id="gclose">關閉</button>
-<button class="btn" id="gcopy">複製全文</button></div>
+<label><input type="checkbox" id="gt"> Teacher</label>
+<label><input type="checkbox" id="gs"> Seats left</label>
+<label><input type="checkbox" id="gu"> Class link</label></div>
+<div class="fld"><label>Opening line</label><input type="text" id="ghead"></div>
+<div class="fld"><label>Message</label><textarea id="gout"></textarea></div>
+<div class="srow"><button class="btn gh" id="gclose">Close</button>
+<button class="btn" id="gcopy">Copy all</button></div>
 </div></div>
 <div class="tblwrap"><table><thead><tr>
-<th></th><th>科目 / 年級</th><th>班型</th><th>老師</th><th>skuID</th>
-<th>美西 PT</th><th>美東 ET</th><th>北京</th>
-<th>狀態</th><th>名額</th><th>開課～結課</th><th>備註</th><th></th>
+<th></th><th>Course / Grade</th><th>Level</th><th>Teacher</th><th>skuID</th>
+<th>Pacific</th><th>Eastern</th><th>Beijing</th>
+<th>Status</th><th>Seats</th><th>Term</th><th>Notes</th><th></th>
 </tr></thead><tbody id="tb"></tbody></table></div>
 
 <footer>
-時區換算依實際日期的美國日光節約時間計算：美東＝美西＋3 小時（固定）；北京＝美西＋15 小時（3/8–11/1 夏令）／＋16 小時（11/1 之後冬令）。<br>
-「日期範圍」是依每班的每週固定上課日 × 開課～結課區間推算，未扣除假期停課，實際請以官網為準。<br>
-剩餘名額＝官網 Cap − 已報名；<span class="tag t-low">僅剩 N 位</span> 代表剩 3 位以內。<br>
-skuID 為每個班級的唯一編號，班級頁面網址＝ .../courses/detail/&lt;skuID&gt;，可直接搜尋。
+Timezone conversion uses US daylight-saving rules for each class's actual dates: ET = PT + 3h (fixed); Beijing = PT + 15h (Mar 8 - Nov 1) or + 16h (after Nov 1).<br>
+The date-range filter is derived from each class's weekly meeting days &times; its start-end range. It does <em>not</em> account for holiday breaks &mdash; confirm on the class page.<br>
+Seats left = site capacity &minus; enrolled. <span class="tag t-low">N left</span> means 3 or fewer.<br>
+skuID is each class's unique id; its page is .../courses/detail/&lt;skuID&gt; and you can search by it above.
 </footer>
 </div>
 
@@ -205,7 +205,7 @@ var sn=dnum(sd),en=dnum(ed),bo=isPDT(sn)?15:16,left=r[6]-r[7];
 return{s:subj,l:lv,t:P.T[r[2]],mask:r[3],ms:r[4],me:r[5],
 pt:slot(r[3],r[4],r[5],0),et:slot(r[3],r[4],r[5],3),bj:slot(r[3],r[4],r[5],bo),
 cap:r[6],en:r[7],lf:left,
-st:left<=0?'額滿 FULL':(left<=3?'僅剩 '+left+' 位':'尚有 '+left+' 位'),
+st:left<=0?'Full':(left<=3?left+' left':left+' seats'),
 sd:sd,ed:ed,sn:sn,dn:en,n:P.N[r[10]],sku:r[11],
 u:'https://www.thethinkacademy.com/courses/detail/'+r[11]};});
 
@@ -216,7 +216,7 @@ t1=$('t1'),t2=$('t2'),d1=$('d1'),d2=$('d2'),q=$('q');
 function opts(sel,arr,vals){arr.forEach(function(v,i){var o=document.createElement('option');
 o.textContent=v;if(vals)o.value=vals[i];sel.appendChild(o);});}
 opts(fs,P.S);opts(fl,P.L.slice().sort());opts(ft,P.T.slice().sort());
-opts(fd,ORD.map(function(i){return '週'+ZH[i];}),ORD.map(String));
+opts(fd,ORD.map(function(i){return DAY[i];}),ORD.map(String));
 var openOnly=false,mustFit=true;
 $('fit').className='chip on';
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){
@@ -264,33 +264,33 @@ function render(){
   h.push('<tr'+(SEL[r.sku]?' class="sel"':'')+'>'
   +'<td data-l=""><label class="pk"><input type="checkbox" class="pkx" data-sku="'+r.sku+'"'
   +(SEL[r.sku]?' checked':'')+'><span></span></label></td>'
-  +'<td class="hd" data-l="課程">'+esc(r.s)+'</td>'
-  +'<td data-l="班型">'+esc(r.l)+'</td>'
-  +'<td data-l="老師">'+esc(r.t)+'</td>'
+  +'<td class="hd" data-l="Course">'+esc(r.s)+'</td>'
+  +'<td data-l="Level">'+esc(r.l)+'</td>'
+  +'<td data-l="Teacher">'+esc(r.t)+'</td>'
   +'<td class="tm sku" data-l="skuID">'+r.sku+'</td>'
-  +'<td class="tm'+(col==='pt'?' pick':'')+'" data-l="美西">'+r.pt+'</td>'
-  +'<td class="tm'+(col==='et'?' pick':'')+'" data-l="美東">'+r.et+'</td>'
-  +'<td class="tm'+(col==='bj'?' pick':'')+'" data-l="北京">'+r.bj+'</td>'
-  +'<td data-l="狀態"><span class="tag '+(r.lf<=0?'t-full':(r.lf<=3?'t-low':'t-open'))+'">'+r.st+'</span></td>'
-  +'<td class="tm" data-l="名額">'+r.en+' / '+r.cap+'</td>'
-  +'<td class="tm" data-l="期間">'+r.sd+' ～ '+r.ed+'</td>'
-  +'<td class="note" data-l="備註">'+esc(r.n)+'</td>'
-  +'<td data-l="連結"><a href="'+r.u+'" target="_blank" rel="noopener">班級頁</a></td></tr>');}
- tb.innerHTML=h.join('')||'<tr><td colspan="13" style="padding:26px;text-align:center;color:#6b7784">沒有符合的班級</td></tr>';
- cnt.textContent='顯示 '+out.length+' / '+ROWS.length+' 個班級';
- var zn=base===0?'美西 PT':(base===3?'美東 ET':'北京');
+  +'<td class="tm'+(col==='pt'?' pick':'')+'" data-l="PT">'+r.pt+'</td>'
+  +'<td class="tm'+(col==='et'?' pick':'')+'" data-l="ET">'+r.et+'</td>'
+  +'<td class="tm'+(col==='bj'?' pick':'')+'" data-l="BJ">'+r.bj+'</td>'
+  +'<td data-l="Status"><span class="tag '+(r.lf<=0?'t-full':(r.lf<=3?'t-low':'t-open'))+'">'+r.st+'</span></td>'
+  +'<td class="tm" data-l="Seats">'+r.en+' / '+r.cap+'</td>'
+  +'<td class="tm" data-l="Term">'+r.sd+' ～ '+r.ed+'</td>'
+  +'<td class="note" data-l="Notes">'+esc(r.n)+'</td>'
+  +'<td data-l="Link"><a href="'+r.u+'" target="_blank" rel="noopener">Class page</a></td></tr>');}
+ tb.innerHTML=h.join('')||'<tr><td colspan="13" style="padding:26px;text-align:center;color:#6b7784">No classes match</td></tr>';
+ cnt.textContent='Showing '+out.length+' of '+ROWS.length;
+ var zn=base===0?'Pacific':(base===3?'Eastern':'Beijing');
  var bits=[];
- if(ta!==null)bits.push(zn+' '+hhmm(ta)+'–'+hhmm(tb2)+(mustFit?'（整堂需落在此區間）':'（有重疊即可）'));
- if(A!==null)bits.push('日期 '+iso(A)+' ～ '+iso(B));
- if(wd!==null)bits.push(zn+' 週'+ZH[wd]);
- hint.textContent=bits.length?('篩選條件：'+bits.join(' · ')):'未設時段／日期條件，顯示全部班級。時區選單會決定時段、日期、星期以哪個時區判斷。';
+ if(ta!==null)bits.push(zn+' '+hhmm(ta)+'-'+hhmm(tb2)+(mustFit?' (class must fit fully)':' (any overlap)'));
+ if(A!==null)bits.push('Dates '+iso(A)+' to '+iso(B));
+ if(wd!==null)bits.push(zn+' '+DAY[wd]);
+ hint.textContent=bits.length?('Filters: '+bits.join(' · ')):'No time or date filter set. The timezone selector decides which zone the day / time / date filters are judged in.';
 }
 [fs,fl,ft,fd,tzs].forEach(function(e){e.onchange=render;});
 [t1,t2,d1,d2].forEach(function(e){e.onchange=render;e.oninput=render;});
 q.oninput=render;
 $('only').onclick=function(){openOnly=!openOnly;this.className='chip'+(openOnly?' on':'');render();};
 $('fit').onclick=function(){mustFit=!mustFit;this.className='chip'+(mustFit?' on':'');
-this.textContent=mustFit?'時段需完整容納':'時段有重疊即可';render();};
+this.textContent=mustFit?'Must fit fully':'Any overlap';render();};
 $('reset').onclick=function(){fs.value=fl.value=ft.value=fd.value='';q.value='';
 t1.value=t2.value=d1.value=d2.value='';tzs.value='0';openOnly=false;
 $('only').className='chip';render();};
@@ -320,7 +320,7 @@ function slot2(r,off){var s=r.ms+off*60,e=r.me+off*60;
 function bjOf(r){return isPDT(r.sn)?15:16;}
 function buildMsg(){
  var list=selRows(); if(!list.length) return '';
- var v=document.getElementById('gtz').value, lbl=v==='bj'?'北京':(v==='3'?'東岸':'');
+ var v=document.getElementById('gtz').value, lbl=v==='bj'?'北京':(v==='3'?'东岸':'');
  list.sort(function(a,b){var da=99,db=99,i;
   for(i=0;i<7;i++){if(a.mask&(1<<ORD[i])){da=i;break;}}
   for(i=0;i<7;i++){if(b.mask&(1<<ORD[i])){db=i;break;}}
@@ -329,7 +329,7 @@ function buildMsg(){
   var t=slot2(r,0)+' PT';
   if(v!=='0') t+=' → '+slot2(r,v==='bj'?bjOf(r):+v)+'（'+lbl+'）';
   var ex=[];
-  if(document.getElementById('gt').checked) ex.push(r.t+' 老師');
+  if(document.getElementById('gt').checked) ex.push(r.t+' 老师');
   if(document.getElementById('gs').checked) ex.push('剩 '+r.lf+' 位');
   if(ex.length) t+='　'+ex.join('、');
   if(document.getElementById('gu').checked) t+=NL+r.u;
@@ -337,7 +337,7 @@ function buildMsg(){
  return document.getElementById('ghead').value.trim()+NL+NL+lines.join(NL);
 }
 function headDefault(){var m={};selRows().forEach(function(r){m[r.s+' '+r.l]=1;});
- var k=Object.keys(m); return 'Hi 家長，這是本週 '+(k.length===1?k[0]:'以下課程')+' 還可以插班試聽的時段，以下有合適的嗎？';}
+ var k=Object.keys(m); return 'Hi 家长，这是本周 '+(k.length===1?k[0]:'以下课程')+' 还可以插班试听的时段，以下有合适的吗？';}
 function refreshMsg(){document.getElementById('gout').value=buildMsg();}
 document.getElementById('gmake').onclick=function(){
  document.getElementById('ghead').value=headDefault(); refreshMsg();
@@ -350,7 +350,7 @@ document.getElementById('ghead').oninput=refreshMsg;
 document.getElementById('gclr').onclick=function(){SEL={};render();syncBar();};
 document.getElementById('gcopy').onclick=function(){
  var ta=document.getElementById('gout'),btn=this;
- var done=function(){btn.textContent='已複製 ✓';setTimeout(function(){btn.textContent='複製全文';},1600);};
+ var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy all';},1600);};
  if(navigator.clipboard&&navigator.clipboard.writeText){
   navigator.clipboard.writeText(ta.value).then(done,function(){ta.select();document.execCommand('copy');done();});
  } else {ta.select();document.execCommand('copy');done();}};
