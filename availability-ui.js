@@ -45,7 +45,7 @@
       '<div class="avbar-inner">' +
         '<div class="avtime">最後更新：<strong id="availability-updated">載入中…</strong></div>' +
         '<div class="avstats" id="availability-stats"></div>' +
-        '<button type="button" class="avrefresh" id="availability-refresh">更新名額</button>' +
+        '<button type="button" class="avrefresh" id="availability-refresh">重新載入名額</button>' +
         '<div class="avmsg" id="availability-message" aria-live="polite"></div>' +
         '<details class="avmissing" id="availability-missing" hidden><summary></summary><ul></ul></details>' +
       '</div>';
@@ -72,7 +72,8 @@
 
   function availabilityMarkup(r) {
     var regFull = r.registrationRemaining <= 0 || r.registrationExploded;
-    var noLesson = r.currentLesson == null || r.trialRemaining == null;
+    var pending = /^pending_|^metric_|^lesson_/.test(r.availabilityStatus || '');
+    var noLesson = !pending && (r.currentLesson == null || r.trialRemaining == null);
     var trialFull = !noLesson && (r.trialRemaining <= 0 || r.trialFull);
     var lesson = r.currentLesson == null ? '本講次' : 'L' + r.currentLesson;
     return '' +
@@ -80,10 +81,10 @@
       '<span class="bms-pill' + (regFull ? ' full' : '') + '">' +
         (regFull ? '報名已滿' : '可報名 ' + r.registrationRemaining) +
       '</span>' +
-      '<span class="bms-pill' + (noLesson ? ' na' : (trialFull ? ' full' : '')) + '">' +
-        (noLesson ? '目前無課次' : (trialFull ? lesson + ' 試聽已滿' : lesson + ' 可試聽 ' + r.trialRemaining)) +
+      '<span class="bms-pill' + ((pending || noLesson) ? ' na' : (trialFull ? ' full' : '')) + '">' +
+        (pending ? lesson + ' 試聽名額待更新' : (noLesson ? '目前無課次' : (trialFull ? lesson + ' 試聽已滿' : lesson + ' 可試聽 ' + r.trialRemaining))) +
       '</span>' +
-      '<span class="bms-meta">Class ' + r.classId + '</span>';
+      (r.classId == null ? '' : '<span class="bms-meta">Class ' + r.classId + '</span>');
   }
 
   function decorateCards() {
@@ -161,8 +162,9 @@
     document.getElementById('availability-updated').textContent = formatUpdated(data.updatedAt || data.asOfDate);
     var trialOpen = data.records.filter(function (r) { return r.trialRemaining > 0 && !r.trialFull; }).length;
     var regOpen = data.records.filter(function (r) { return r.registrationRemaining > 0 && !r.registrationExploded; }).length;
+    var trialPending = data.records.filter(function (r) { return r.trialRemaining == null; }).length;
     document.getElementById('availability-stats').textContent =
-      data.records.length + ' 班 · 可試聽 ' + trialOpen + ' · 可報名 ' + regOpen;
+      data.records.length + ' 班 · 可試聽 ' + trialOpen + ' · 待更新 ' + trialPending + ' · 可報名 ' + regOpen;
     var msg = document.getElementById('availability-message');
     var age = data.updatedAt ? Date.now() - new Date(data.updatedAt).getTime() : 0;
     if (age > 6 * 60 * 60 * 1000) {
@@ -192,7 +194,7 @@
         if (msg) { msg.className = 'avmsg warn'; msg.textContent = '暫時無法讀取名額，畫面保留上一版資料。'; }
       })
       .then(function () {
-        if (button) { button.disabled = false; button.textContent = '更新名額'; }
+        if (button) { button.disabled = false; button.textContent = '重新載入名額'; }
       });
   }
 
